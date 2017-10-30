@@ -5,11 +5,14 @@ MAINTAINER Leonel Baer <leonel@lysender.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 
+# Configure services
+ADD ./start-apache2.sh /start-apache2.sh
+
+# Combined RUN commands to reduce layer size
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
-    add-apt-repository ppa:ondrej/php
-
-RUN apt-get update && \
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update && \
     apt-get install -y \
     supervisor \
     php5.6 \
@@ -27,27 +30,21 @@ RUN apt-get update && \
     curl \
     apache2 \
     libapache2-mod-php5.6 \
-    openssl && apt-get clean
-
-# Enable PHP modules
-RUN phpenmod mcrypt; \
-    phpenmod curl
-
-# Configure servicies
-ADD ./start-apache2.sh /start-apache2.sh
-RUN chmod 755 /*.sh
-RUN mkdir -p /etc/supervisor/conf.d
-ADD ./supervisor-apache2.conf /etc/supervisor/conf.d/apache2.conf
-
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-ADD apache-default.conf /etc/apache2/sites-available/000-default.conf
-
-# Enable Apache modules
-RUN a2enmod rewrite; \
-    a2enmod headers; \
-    a2enmod deflate; \
-    a2enmod env; \
+    openssl && \
+    apt-get clean && \
+    chmod 755 /*.sh && \
+    mkdir -p /etc/supervisor/conf.d && \
+    echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    phpenmod mcrypt && \
+    phpenmod curl && \
+    a2enmod rewrite && \
+    a2enmod headers && \
+    a2enmod deflate && \
+    a2enmod env && \
     a2enmod expires
+
+ADD ./supervisor-apache2.conf /etc/supervisor/conf.d/apache2.conf
+ADD apache-default.conf /etc/apache2/sites-available/000-default.conf
 
 VOLUME ["/var/www/html", "/var/log/apache2"]
 
