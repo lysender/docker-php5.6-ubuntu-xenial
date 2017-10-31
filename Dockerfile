@@ -28,6 +28,7 @@ RUN apt-get update && \
     php5.6-xml \
     php5.6-mcrypt \
     php5.6-xmlrpc \
+    wkhtmltopdf \
     curl \
     apache2 \
     libapache2-mod-php5.6 \
