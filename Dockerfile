@@ -31,6 +31,7 @@ RUN apt-get update && \
     libxrender1  \
     libxext6 \
     libfontconfig1 \
+    git \
     curl \
     apache2 \
     libapache2-mod-php5.6 \
