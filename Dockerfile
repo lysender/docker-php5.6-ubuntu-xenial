@@ -7,6 +7,7 @@ ENV LANG C.UTF-8
 
 # Configure services
 ADD ./start-apache2.sh /start-apache2.sh
+ADD ./install-composer.sh /install-composer.sh
 
 # Combined RUN commands to reduce layer size
 RUN apt-get update && \
@@ -14,6 +15,7 @@ RUN apt-get update && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && \
     apt-get install -y \
+    wget \
     supervisor \
     php5.6 \
     php5.6-cgi \
@@ -47,7 +49,10 @@ RUN apt-get update && \
     a2enmod headers && \
     a2enmod deflate && \
     a2enmod env && \
-    a2enmod expires
+    a2enmod expires && \
+    chmod +x /install-composer.sh && \
+    /install-composer.sh && \
+    mv composer.phar /usr/bin/composer
 
 ADD ./supervisor-apache2.conf /etc/supervisor/conf.d/apache2.conf
 ADD apache-default.conf /etc/apache2/sites-available/000-default.conf
