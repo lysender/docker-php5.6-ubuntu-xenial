@@ -28,6 +28,7 @@ RUN apt-get update && \
     php5.6-xml \
     php5.6-mcrypt \
     php5.6-xmlrpc \
+    php5.6-zip \
     libxrender1  \
     libxext6 \
     libfontconfig1 \
