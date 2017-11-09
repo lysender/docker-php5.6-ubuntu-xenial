@@ -37,6 +37,7 @@ RUN apt-get update && \
     git \
     curl \
     apache2 \
+    sendmail \
     libapache2-mod-php5.6 \
     openssl && \
     apt-get clean && \
