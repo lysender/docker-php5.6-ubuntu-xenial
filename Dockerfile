@@ -34,6 +34,8 @@ RUN apt-get update && \
     libxrender1  \
     libxext6 \
     libfontconfig1 \
+    wkhtmltopdf \
+    xvfb \
     git \
     curl \
     apache2 \
